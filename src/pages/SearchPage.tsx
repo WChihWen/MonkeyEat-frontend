@@ -17,13 +17,14 @@ export type SearchState = {
 
 const SearchPage = () => {
   const { city } = useParams();
+  
   const [searchState, setSearchState] = useState<SearchState>({
     searchQuery: "",
     page: 1,
     selectedCuisines: [],
     sortOption: "bestMatch",
   });
-
+  
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const { results, isLoading } = useSearchRestaurants(searchState, city);
@@ -56,7 +57,7 @@ const SearchPage = () => {
       ...prevState,
       searchQuery: searchFormData.searchQuery,
       page: 1,
-    }));
+    }));   
   };
 
   const resetSearch = () => {
@@ -95,7 +96,7 @@ const SearchPage = () => {
           onReset={resetSearch}
         />
         <div className="flex justify-between flex-col gap-3 lg:flex-row">
-          <SearchResultInfo total={results.pagination.total} city={city} />
+          <SearchResultInfo total={results.pagination.total} city={searchState.searchQuery =="" ? city : searchState.searchQuery} />
           <SortOptionDropdown
             sortOption={searchState.sortOption}
             onChange={(value) => setSortOption(value)}
@@ -103,7 +104,7 @@ const SearchPage = () => {
         </div>
 
         {results.data.map((restaurant) => (
-          <SearchResultCard restaurant={restaurant} />
+          <SearchResultCard key={restaurant._id} restaurant={restaurant} />
         ))}
         <PaginationSelector
           page={results.pagination.page}
