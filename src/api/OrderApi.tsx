@@ -40,6 +40,7 @@ type CheckoutSessionRequest = {
         menuItemId: string;
         name: string;
         quantity: string;
+        price: number;
     }[];
     deliveryDetails: {
         email: string;
@@ -48,6 +49,7 @@ type CheckoutSessionRequest = {
         city: string;
     };
     restaurantId: string;
+    totalAmount: number;
 };
 
 export const useCreateCheckoutSession = () => {

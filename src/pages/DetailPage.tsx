@@ -74,7 +74,6 @@ const DetailPage = () => {
                 `cartItems-${restaurantId}`,
                 JSON.stringify(updatedCartItems)
             );
-
             return updatedCartItems;
         });
     };
@@ -83,12 +82,19 @@ const DetailPage = () => {
         if (!restaurant) {
             return;
         }
-
+        const sumPrices = (items:CartItem[]) => {
+            let total = 0;
+            for (let i = 0; i < items.length; i++) {
+                total += items[i].price * items[i].quantity ;
+            }
+            return total;
+        };
         const checkoutData = {
             cartItems: cartItems.map((cartItem) => ({
                 menuItemId: cartItem._id,
                 name: cartItem.name,
                 quantity: cartItem.quantity.toString(),
+                price: cartItem.price * cartItem.quantity ,
             })),
             restaurantId: restaurant._id,
             deliveryDetails: {
@@ -98,8 +104,11 @@ const DetailPage = () => {
                 country: userFormData.country,
                 email: userFormData.email as string,
             },
+            deliveryPrice: restaurant.deliveryPrice ,
+            totalAmount: restaurant.deliveryPrice + sumPrices(cartItems) ,
         };
-
+       
+        console.log(checkoutData.totalAmount);
         const data = await createCheckoutSession(checkoutData);
         window.location.href = data.url;
     };
