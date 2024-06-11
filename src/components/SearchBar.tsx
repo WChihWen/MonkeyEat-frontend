@@ -76,14 +76,9 @@ const SearchBar = ({ onSubmit, onReset, placeHolder, searchQuery }: Props) => {
                 )}
             />
 
-            <Button
-                onClick={handleReset}
-                type="button"
-                variant="outline"
-                className="rounded-full"
-            >
-                Reset
-            </Button>
+                <Button onClick={handleReset} type="button" variant="outline" className="rounded-full">
+                    Reset
+                </Button>
                 <Button type="submit" className="rounded-full bg-sky-700">
                     Search
                 </Button>
